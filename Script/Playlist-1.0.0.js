@@ -1,43 +1,47 @@
 var trackList = document.getElementById('trackList');
-var audio = ["SN.mp3","SN1.mp3","SN2.mp3","SN3.mp3"];
+var audio = document.getElementsByTagName('audio');
 var btnPlay = document.getElementsByClassName('play');
 var btnPause = document.getElementsByClassName('pause');
 var trackPlay = new Audio();
+
 
 function webPlayer(){
   var target = event.target;
   var dataset = target.dataset;
   var type = dataset.type;
   var value = dataset.value;
-  for (var i = 0; i <= 100; i++) {
+  for (var i = 0; i <= audio.length; i++) {
   }
-
   if (type) {
     if (type === "play") {
       var outAdio = parseFloat(value) -1;
       console.log(outAdio);
-      trackPlay.src = audio[outAdio];
-      trackPlay.play();
+      audio[outAdio].play();
       btnPlay[outAdio].style.display = 'none';
       btnPause[outAdio].style.display = 'inline-block';
+      var tiempo;
+      var segundos = 0;
     }
     if (type === "pause") {
       var inAudio = parseFloat(value) -1;
       console.log(inAudio);
-      trackPlay.src = audio[inAudio];
-      trackPlay.pause();
+      audio[inAudio].pause();
       btnPause[inAudio].style.display = 'none';
       btnPlay[inAudio].style.display = 'inline-block';
     }
     var stop = outAdio;
-    function stopAudio(){
-      trackPlay.src = audio[stop];
-      trackPlay.pause();
-      btnPause[stop].style.display = 'none';
-      btnPlay[stop].style.display = 'inline-block';
+    function timer(){
+      var seconds;
+      seconds = 0;
+      var time = segundos++;
+      if (time > 20) {
+        audio[stop].pause();
+        btnPause[stop].style.display = 'none';
+        btnPlay[stop].style.display = 'inline-block';
+      }
     }
-    setTimeout(stopAudio, 25000);
-  }
+    setInterval(timer,1000);
+}
 }
 
 trackList.addEventListener('click', webPlayer);
